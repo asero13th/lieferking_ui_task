@@ -5,16 +5,13 @@ import 'package:lieferking_ui_task/features/rate_experience/data/models/user_rat
 import '../widgets/widgets.dart';
 import '../cubit/rate_experience_cubit.dart';
 
-class RateExperiencePage extends StatefulWidget {
-  @override
-  _RateExperiencePageState createState() => _RateExperiencePageState();
-}
+class RateExperiencePage extends StatelessWidget {
+  final TextEditingController feedbackController = TextEditingController();
+  final ValueNotifier<int> deliverySpeedNotifier = ValueNotifier<int>(0);
+  final ValueNotifier<int> foodQualityNotifier = ValueNotifier<int>(0);
+  final ValueNotifier<int> friendlinessNotifier = ValueNotifier<int>(0);
 
-class _RateExperiencePageState extends State<RateExperiencePage> {
-  int deliverySpeed = 0;
-  int foodQuality = 0;
-  int friendliness = 0;
-  String feedback = 'The food was good, but the delivery was a bit slow';
+  RateExperiencePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -76,27 +73,24 @@ class _RateExperiencePageState extends State<RateExperiencePage> {
                       orderDateAndTime: orderedFood.dateAndTime,
                     ),
                     const SizedBox(height: 32),
-                    RatingSection(
-                      deliverySpeed: deliverySpeed,
-                      foodQuality: foodQuality,
-                      friendliness: friendliness,
-                      onDeliverySpeedChanged: (value) {
-                        setState(() {
-                          deliverySpeed = value;
-                        });
-                      },
-                      onFoodQualityChanged: (value) {
-                        setState(() {
-                          foodQuality = value;
-                        });
-                      },
-                      onFriendlinessChanged: (value) {
-                        setState(() {
-                          friendliness = value;
-                        });
+                    ValueListenableBuilder<int>(
+                      valueListenable: deliverySpeedNotifier,
+                      builder: (context, deliverySpeed, _) {
+                        return ValueListenableBuilder<int>(
+                          valueListenable: foodQualityNotifier,
+                          builder: (context, foodQuality, _) {
+                            return ValueListenableBuilder<int>(
+                              valueListenable: friendlinessNotifier,
+                              builder: (context, friendliness, _) {
+                                return const RatingSection();
+                              },
+                            );
+                          },
+                        );
                       },
                     ),
                     TextField(
+                      controller: feedbackController,
                       decoration: const InputDecoration(
                         labelText: 'Your comments (optional)',
                         alignLabelWithHint: true,
@@ -109,20 +103,15 @@ class _RateExperiencePageState extends State<RateExperiencePage> {
                         ),
                       ),
                       maxLines: 3,
-                      onChanged: (value) {
-                        setState(() {
-                          feedback = value;
-                        });
-                      },
                     ),
                     const SizedBox(height: 16),
                     SubmitButton(
                       onPressed: () {
                         final userRating = UserRating(
-                          deliverySpeed: deliverySpeed,
-                          foodQuality: foodQuality,
-                          friendliness: friendliness,
-                          feedback: feedback,
+                          deliverySpeed: deliverySpeedNotifier.value,
+                          foodQuality: foodQualityNotifier.value,
+                          friendliness: friendlinessNotifier.value,
+                          feedback: feedbackController.text,
                         );
                         context
                             .read<UserRatingCubit>()

@@ -2,22 +2,9 @@ import 'package:flutter/material.dart';
 
 class RatingSection extends StatelessWidget {
 
- final int deliverySpeed;
-  final int foodQuality;
-  final int friendliness;
-  final ValueChanged<int> onDeliverySpeedChanged;
-  final ValueChanged<int> onFoodQualityChanged;
-  final ValueChanged<int> onFriendlinessChanged;
-
   const RatingSection({
-    Key? key,
-    required this.deliverySpeed,
-    required this.foodQuality,
-    required this.friendliness,
-    required this.onDeliverySpeedChanged,
-    required this.onFoodQualityChanged,
-    required this.onFriendlinessChanged,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +30,7 @@ class RatingSection extends StatelessWidget {
 class RatingRow extends StatefulWidget {
   final String label;
 
-  const RatingRow({required this.label});
+  const RatingRow({super.key, required this.label});
 
   @override
   _RatingRowState createState() => _RatingRowState();
