@@ -1,0 +1,20 @@
+{
+  "foodype": "Cingo Foods",
+  "payment_methode": "visa",
+  "order_id": "48493",
+  "total_price": 45.99,
+  "order_date_time": "20/10/2024 | 05:00 Pm",
+
+  "foods": [
+    {
+      "total_foods": 1,
+      "food_name": "Pizza",
+      "addictional_preference": "Pizza without onion, but a lot of cheese"
+    },
+    {
+      "total_foods": 2,
+      "food_name": "Burger",
+      "addictional_preference": "Salad without banana, but a lot of grapes"
+    }
+  ]
+}
